@@ -3,7 +3,45 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<h1>Hello world</h1>
+<h1 class="d-flex justify-content-center mt-3">Records</h1>
+<table class="table table-secondary table-hover table-striped mt-5">
+  <thead class="table-success">
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+     
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Address</th>
+      <th scope="col">City</th>
+      <th scope="col">Zipcode</th>
+      <th scope="col">Created_at</th>
+      <th scope="col">View</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+      {% if records %}
+       {% for record in records %}
+       <tr>
+        <td> {{ record.id}} </td>
+        <td>  {{ record.first_name }}
+          {{ record.last_name }}</td>
+        <td>  {{ record.email }}</td>
+        <td>  {{ record.phone }}</td>
+        <td>  {{ record.address }}</td>
+        <td>  {{ record.city }}</td>
+        <td>  {{ record.zipcode }}</td>
+        <td>  {{ record.created_at }}</td>
+        <td> <a href="{% url 'record' record.id %}">{{ record.id}}</a></td>
+       </tr>
+      {% endfor %}
+ 
+    {% endif %}
+    
+  </tbody>
+</table> 
+
 
 {% else %}
  <div class="col-md-6 offset-md-3 mt-3">
@@ -12,7 +50,7 @@
         {% csrf_token %}
         <form>
         <div class="mb-3 mt-3">
-          <label for="username" class="form-label">Email:</label>
+          <label for="username" class="form-label">Username:</label>
           <input type="text" class="form-control" placeholder="Enter username" name="username" required>
         </div>
         <div class="mb-3">

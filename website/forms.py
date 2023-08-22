@@ -1,12 +1,18 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
+from django.forms import Widget
+from .models import Record
+
 
 class SignUpForm(UserCreationForm):
-    email = forms.EmailField(label="",widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Email-address'}), required=False)
-    first_name = forms.CharField(label="",widget=forms.TextInput(attrs={'class':'form-control','placeholder':'First name'}), max_length=20, required=False)
-    last_name = forms.CharField(label="",widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Last name'}), max_length=20, required=False)
-
+    email = forms.EmailField(label="",widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Email-address'}))
+    first_name = forms.CharField(label="",widget=forms.TextInput(attrs={'class':'form-control','placeholder':'First name'}), max_length=20 )
+    last_name = forms.CharField(label="",widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Last name'}), max_length=20)
+    password1 = forms.CharField(label="password",widget=forms.TextInput(attrs={'class':'form-control'}))
+    password2 = forms.CharField(label="password again",widget=forms.TextInput(attrs={'class':'form-control'}))
+    username = forms.CharField(label='Username',widget=forms.TextInput(attrs={'class':'form-control'}))
+    
     class Meta:
        model = User
        fields = ('username','first_name','last_name','email','password1','password2')
@@ -29,5 +35,23 @@ class SignUpForm(UserCreationForm):
        self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
        self.fields['password2'].label = ''
        self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'	
+
+#Add record class
+class AddRecordForm(forms.ModelForm):
+    first_name = forms.CharField(required=False,widget=forms.widgets.TextInput(attrs={'class':'form-control','placeholder':'First name'}), max_length=20, label="" )
+    last_name = forms.CharField(required=False,widget=forms.widgets.TextInput(attrs={'class':'form-control','placeholder':'Last name'}), max_length=20, label="")
+    email = forms.EmailField(required=False,widget=forms.widgets.TextInput(attrs={'class':'form-control','placeholder':'Email-address'}),label="")
+    address = forms.CharField(required=False,widget=forms.widgets.TextInput(attrs={'class':'form-control','placeholder':'Address'}),label="")
+    phone = forms.CharField(required=False,widget=forms.widgets.TextInput(attrs={'class':'form-control','placeholder':'Phone'}), label="")
+    city = forms.CharField(required=False,widget=forms.widgets.TextInput(attrs={'class':'form-control','placeholder':'City'}), label="")
+    zipcode = forms.CharField(required=False,widget=forms.widgets.TextInput(attrs={'class':'form-control','placeholder':'Zipcode'}), label="")
+    state = forms.CharField(required=False,widget=forms.widgets.TextInput(attrs={'class':'form-control','placeholder':'State'}), label="")
+    
+
+    class Meta:
+        model = Record
+        exclude = ('user',)
+
+    
    
         
